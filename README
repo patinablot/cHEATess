@@ -1,0 +1,173 @@
+Intent:
+
+    - simple example of c# usage
+    - use chess data e.g. from Lichess to show user's common moves, success rates given position data
+    - graphically identify opening mistakes, potential variations
+
+Paradigm:
+
+    - display chessboard
+    - display freq. analysis
+        -- hardcode self
+        -- by player
+    
+To Not:
+
+    X - use forms
+        ^ want to run on more platforms
+    X - use web api
+        ^ don't need to use this remotely
+    X - use AI / generate move candidates / analyze
+        ^ unnecessary for repertoire overview
+    X - waste time drawing
+        ^ simple table output OK at 1st
+
+
+Inputs:
+
+    * arbitrary vector of chess games
+        -- limitation tbd e.g. by stopwatch
+        -- default: 100
+        * -- store (+ dupe detect?) stats through 1-by-1 entry
+        	^ seems minimal
+
+    X - curl from Lichess
+        x -- consider API
+        x -- determine format
+             --- PGN
+             ^ known can be exported
+            x --- FEN
+            x --- txt
+            x --- json
+        x -- determine curl variant
+
+Outputs:
+    1+ of:
+        * - to console
+        - as hosted repl
+        - event log
+
+Values:
+    - 8x8 matrix
+        -- rows: A-H ("ranks")
+        -- cols: 1-8 ("files")
+
+    - pieces vector, |6|
+        -- pawn
+        -- knight
+        -- bishop
+        -- rook
+        -- queen
+        -- king
+
+    - players vector, |2|
+        -- black
+        -- white
+
+Risks:
+    - can't get the data
+        > see: [[repair]]
+
+    - feature set incompleteness
+        > see: [[milestones]]
+
+    - inconsistent paradigm
+        > see: [[review]]
+    
+    X - code does not run
+        X > see: [[issues]]
+
+        ^ assume code runs.
+    
+    - code insufficient to accomplish intent
+    - timescale failure
+        X > see: [[postmortem]]
+
+        ^ assume sufficient code
+        ^ assume sufficient time
+
+
+Benefits:
+    - me:
+        -- "I did it!"
+        -- easier to play chess
+        -- more interesting gameplay
+        -- don't have to pay to analyze this
+      * -- durable repertoire expansion
+        -- improve github engagement
+
+    - you:
+        -- utility of reading
+        -- fork?
+        -- run on your own games
+
+    - us:
+        -- variant approach could generalize
+            ^ analyze logs, test output
+
+        -- easier to discuss similar works
+
+
+
+Repair:
+    " can't get the data "
+        > enter into console
+        > input plaintext of data
+        >> use txt file as default, given 404
+
+Milestones:
+
+1:  
+    - save game representations to file
+    - count occurrences of position in map
+    	-- sort desc
+
+2:    
+    - draw board from game sign input
+    
+
+3:
+    - call chess engine on single position
+    - compare order of positions used against engine
+    - identify most common mistake(s) from position using engine's scalar eval
+
+
+    (deferred / canceled):
+    _
+    X - get pieceset sprite sheet
+    X - print pieces to board  
+        X - generate candidate moves
+        ^ unnecessary output
+
+Review:
+
+    
+    domain = set of all lichess games
+    filter: where player is me
+
+    console read line
+    console print line
+    file write i/o
+        ^ consider read i/o over read console line
+
+    
+
+Toolset:
+
+    - vs code?
+        ^ known easy install lang. support
+    - github
+        ^ also easy, try gh auth
+    - vim
+        ^ this readme
+
+        ^ not configured for coding this project
+        ^^ imprudent to reconfigure
+
+    x - git issues
+    	^ could rearticulate using this later - don't want to interact with right now
+    x - branches, merge commits
+        ^ simple enough that I don't want to overarticulate further
+        ^ shouldn't need multiple branches
+
+
